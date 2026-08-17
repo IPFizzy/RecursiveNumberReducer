@@ -83,7 +83,7 @@ Because every recursive step moves a positive input closer to `1`, the method ca
 ## Project Structure
 
 ```text
-CountToOneRecursion/
+RecursiveNumberReducer/
 ├── CountToOneRecursion/
 │   ├── Program.cs
 │   └── CountToOneRecursion.csproj
@@ -100,8 +100,8 @@ CountToOneRecursion/
 Clone the repository:
 
 ```bash
-git clone https://github.com/IPFizzy/CountToOneRecursion.git
-cd CountToOneRecursion
+git clone https://github.com/IPFizzy/RecursiveNumberReducer.git
+cd RecursiveNumberReducer
 ```
 
 Run from the repository root:
@@ -115,12 +115,6 @@ Or open `CountToOneRecursion.slnx` in Visual Studio and run the project.
 ## Practice Project Context
 
 This repository is preserved as a completed recursion exercise. It demonstrates base cases, recursive calls, branching logic, input normalization, termination reasoning, and simple instrumentation through a recursive-call counter.
-
-## Recommended Repository Name
-
-For a public portfolio, **`RecursiveNumberReducer`** is clearer than `CountToOneRecursion` because it describes what the program does rather than only naming the programming technique it practices.
-
-The internal project and solution names can remain unchanged after renaming the GitHub repository.
 
 ## Author
 
