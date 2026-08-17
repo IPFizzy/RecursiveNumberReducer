@@ -1,123 +1,87 @@
-﻿/*
- * Keon Bushman
- * CST - 250
- * 06/07/2026
- * Count To One Recursion
- * Activity 3
- * Activity 3 Guide
+/*
+ * Recursive Number Reducer
+ *
+ * Demonstrates recursion by repeatedly applying a set of reduction
+ * rules until an integer reaches 1. The program also counts and
+ * displays every recursive call so the process is easy to follow.
  */
 
-//---------------------------------------------------------------
-// Start of the Main Method
-//---------------------------------------------------------------
+int choice;
 
-// Declare and initialize
-int choice = 0, result = 0, counter = 0;
-string input = "";
+Console.WriteLine("Recursive Number Reducer");
+Console.WriteLine("------------------------");
+Console.Write("Enter an integer: ");
 
-// Prompt the user for a number
-Console.Write("Enter a number: ");
-
-// Get the users input
-input = Console.ReadLine();
-
-// See if the user entered valid input
-while (!int.TryParse(input, out choice))
+while (!int.TryParse(Console.ReadLine(), out choice) || choice == int.MinValue)
 {
-    Console.WriteLine("Invalid number");
-
-    // Re-Prompt the user for a number
-    Console.Write("Enter a number: ");
-
-    // Get the users input
-    input = Console.ReadLine();
+    Console.WriteLine("Please enter a valid integer greater than Int32.MinValue.");
+    Console.Write("Enter an integer: ");
 }
 
-// Call the CountToOne function
-result = Utility.CountToOne(choice, ref counter);
+int recursiveCalls = 0;
+int result = Utility.ReduceToOne(choice, ref recursiveCalls);
 
-Console.WriteLine($"The end number is {result}");
-Console.WriteLine($"The number of recursive calls is {counter}");
-
-//---------------------------------------------------------------
-// End of the Main Method
-//---------------------------------------------------------------
+Console.WriteLine();
+Console.WriteLine($"Final value: {result}");
+Console.WriteLine($"Recursive calls: {recursiveCalls}");
 
 static class Utility
 {
     /// <summary>
-    /// Count to one using recursion
+    /// Recursively reduces an integer to 1 while counting each call.
+    /// Every positive-number rule produces a smaller value, which
+    /// guarantees progress toward the base case.
     /// </summary>
-    /// <param name="num"></param>
-    /// <param name="counter"></param>
-    /// <returns></returns>
-    internal static int CountToOne(int num, ref int counter)
+    internal static int ReduceToOne(int number, ref int callCount)
     {
-        // Print out the current number
-        Console.WriteLine($"The current number is {num}");
+        callCount++;
+        Console.WriteLine($"Call {callCount}: {number}");
 
-        // Count the current recursive call
-        counter++;
-
-        // Check if the number is 0
-        if (num == 0)
-        {
-            Console.WriteLine("The number is 0. Change the number to 1");
-
-            return 1;
-        }
-
-        // Check if the number is negative
-        if (num < 0)
-        {
-            Console.WriteLine("The number is negative. Change the number to positive");
-
-            return CountToOne(Math.Abs(num), ref counter);
-        }
-
-        // Check if the number is 1
-        if (num == 1)
+        // Base cases.
+        if (number == 1)
         {
             return 1;
         }
-        else
+
+        if (number == 0)
         {
-            // Check if the number is divisible by 4
-            if ((num % 4) == 0)
-            {
-                Console.WriteLine("The number is divisible by 4. Divide by 4");
-
-                // Divide the number by 4 and call the method
-                return CountToOne(num / 4, ref counter);
-            }
-            else if ((num % 3) == 0)
-            {
-                Console.WriteLine("The number is divisible by 3. Divide by 3");
-
-                // Divide the number by 3 and call the method
-                return CountToOne(num / 3, ref counter);
-            }
-            else if (((num % 5) == 0) && (num < 50) && (num > 5) && ((num % 2) != 0))
-            {
-                Console.WriteLine("The number is divisible by 5. Multiply by 2");
-
-                // Multiply the number by 2 and call the method
-                return CountToOne(num * 2, ref counter);
-            }
-            else if ((num % 2) == 0)
-            {
-                Console.WriteLine("The number is even. Divide by 2");
-
-                // Divide the number by 2 and call the method
-                return CountToOne(num / 2, ref counter);
-            }
-            else
-            {
-                Console.WriteLine("The number is odd. Subtract 1");
-
-                // Subtract 1 and call the method
-                return CountToOne(num - 1, ref counter);
-            }
+            Console.WriteLine("  0 is treated as 1.");
+            return 1;
         }
+
+        // Normalize negative input before applying the reduction rules.
+        if (number < 0)
+        {
+            Console.WriteLine("  Negative value -> use absolute value");
+            return ReduceToOne(Math.Abs(number), ref callCount);
+        }
+
+        // Prefer larger divisors so the number shrinks efficiently.
+        if (number % 4 == 0)
+        {
+            Console.WriteLine("  Divisible by 4 -> divide by 4");
+            return ReduceToOne(number / 4, ref callCount);
+        }
+
+        if (number % 3 == 0)
+        {
+            Console.WriteLine("  Divisible by 3 -> divide by 3");
+            return ReduceToOne(number / 3, ref callCount);
+        }
+
+        if (number % 5 == 0)
+        {
+            Console.WriteLine("  Divisible by 5 -> divide by 5");
+            return ReduceToOne(number / 5, ref callCount);
+        }
+
+        if (number % 2 == 0)
+        {
+            Console.WriteLine("  Even -> divide by 2");
+            return ReduceToOne(number / 2, ref callCount);
+        }
+
+        Console.WriteLine("  Odd -> subtract 1");
+        return ReduceToOne(number - 1, ref callCount);
     }
 }
